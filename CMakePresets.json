@@ -1,0 +1,111 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "windows-base",
+            "hidden": true,
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "cl.exe",
+                "CMAKE_CXX_COMPILER": "cl.exe"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "toolchainFile": "C:/SDK/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        },
+        {
+            "name": "x64-debug",
+            "displayName": "x64 Debug",
+            "inherits": "windows-base",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "x64-release",
+            "displayName": "x64 Release",
+            "inherits": "x64-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "x86-debug",
+            "displayName": "x86 Debug",
+            "inherits": "windows-base",
+            "architecture": {
+                "value": "x86",
+                "strategy": "external"
+            },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "x86-release",
+            "displayName": "x86 Release",
+            "inherits": "x86-debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "linux-base",
+            "displayName": "Linux Base",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/build/${presetName}",
+            "installDir": "${sourceDir}/install/${presetName}",
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Linux"
+            },
+            "hidden": true
+        },
+        {
+            "name": "linux-base-debug",
+            "displayName": "Linux Debug",
+            "inherits": "linux-base",
+            "toolchainFile": "/home/skyne/sdk/vcpkg/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang-14",
+                "CMAKE_CXX_COMPILER": "clang++-14",
+                "BUILD_TESTING": {
+                    "type": "BOOL",
+                    "value": "ON"
+                },
+                "binance_sdk_BUILD_TESTS": {
+                    "type": "BOOL",
+                    "value": "ON"
+                }
+            }
+        },
+        {
+            "name": "macos-debug",
+            "displayName": "macOS Debug",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_C_COMPILER": "clang-14",
+                "CMAKE_CXX_COMPILER": "clang++-14"
+            },
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Darwin"
+            }
+        }
+    ]
+}

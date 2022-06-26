@@ -1,0 +1,25 @@
+services:
+  
+  postgres:
+    image: postgres:14.3-alpine3.16
+    restart: always
+    networks:
+      - common
+    ports:
+    - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+  
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: test
+
+    networks:
+      - common
+    ports:
+      - "8080:80"
+
+networks:
+  common:
