@@ -133,7 +133,6 @@ namespace binance
         template <typename T>
         constexpr std::string_view to_string_view(T s)
         {
-            std::cout << __PRETTY_FUNCTION__ << std::endl;
             if constexpr (std::is_same_v<T, RateLimitInterval>)
             {
                 switch (s)
@@ -376,6 +375,71 @@ namespace binance
             return static_cast<std::string>(to_string_view(s));
         }
 
+        static std::unordered_map<std::string_view, SymbolStatus> symbol_status_mapping = {
+            {to_string_view<SymbolStatus>(SymbolStatus::PRE_TRADING), SymbolStatus::PRE_TRADING},
+            {to_string_view<SymbolStatus>(SymbolStatus::TRADING), SymbolStatus::TRADING},
+            {to_string_view<SymbolStatus>(SymbolStatus::POST_TRADING), SymbolStatus::POST_TRADING},
+            {to_string_view<SymbolStatus>(SymbolStatus::END_OF_DAY), SymbolStatus::END_OF_DAY},
+            {to_string_view<SymbolStatus>(SymbolStatus::HALT), SymbolStatus::HALT},
+            {to_string_view<SymbolStatus>(SymbolStatus::AUCTION_MATCH), SymbolStatus::AUCTION_MATCH},
+            {to_string_view<SymbolStatus>(SymbolStatus::BREAK), SymbolStatus::BREAK},
+        };
+
+        static std::unordered_map<std::string_view, SymbolPermissions> symbol_permissions_mapping = {
+            {to_string_view<SymbolPermissions>(SymbolPermissions::SPOT), SymbolPermissions::SPOT},
+            {to_string_view<SymbolPermissions>(SymbolPermissions::MARGIN), SymbolPermissions::MARGIN},
+            {to_string_view<SymbolPermissions>(SymbolPermissions::LEVERAGED), SymbolPermissions::LEVERAGED},
+            {to_string_view<SymbolPermissions>(SymbolPermissions::TRD_GRP_002), SymbolPermissions::TRD_GRP_002},
+            {to_string_view<SymbolPermissions>(SymbolPermissions::TRD_GRP_003), SymbolPermissions::TRD_GRP_003},
+            {to_string_view<SymbolPermissions>(SymbolPermissions::TRD_GRP_004), SymbolPermissions::TRD_GRP_004},
+        };
+
+        static std::unordered_map<std::string_view, OCOStatus> oco_status_mapping = {
+            {to_string_view<OCOStatus>(OCOStatus::RESPONSE), OCOStatus::RESPONSE},
+            {to_string_view<OCOStatus>(OCOStatus::EXEC_STARTED), OCOStatus::EXEC_STARTED},
+            {to_string_view<OCOStatus>(OCOStatus::ALL_DONE), OCOStatus::ALL_DONE},
+        };
+
+        static std::unordered_map<std::string_view, OCOOrderStatus> oco_order_status_mapping = {
+            {to_string_view<OCOOrderStatus>(OCOOrderStatus::EXECUTING), OCOOrderStatus::EXECUTING},
+            {to_string_view<OCOOrderStatus>(OCOOrderStatus::ALL_DONE), OCOOrderStatus::ALL_DONE},
+            {to_string_view<OCOOrderStatus>(OCOOrderStatus::REJECT), OCOOrderStatus::REJECT},
+        };
+
+        static std::unordered_map<std::string_view, ContingencyType> contingency_type_mapping = {
+            {to_string_view<ContingencyType>(ContingencyType::OCO), ContingencyType::OCO},
+        };
+
+        static std::unordered_map<std::string_view, RateLimitType> rate_limit_type_mapping = {
+            {to_string_view<RateLimitType>(RateLimitType::REQUEST_WEIGHT), RateLimitType::REQUEST_WEIGHT},
+            {to_string_view<RateLimitType>(RateLimitType::ORDERS), RateLimitType::ORDERS},
+            {to_string_view<RateLimitType>(RateLimitType::RAW_REQUESTS), RateLimitType::RAW_REQUESTS},
+        };
+
+        static std::unordered_map<std::string_view, KLineIntervals> klines_intervals_mapping = {
+            {to_string_view<KLineIntervals>(KLineIntervals::MIN1), KLineIntervals::MIN1},
+            {to_string_view<KLineIntervals>(KLineIntervals::MIN3), KLineIntervals::MIN3},
+            {to_string_view<KLineIntervals>(KLineIntervals::MIN5), KLineIntervals::MIN5},
+            {to_string_view<KLineIntervals>(KLineIntervals::MIN15), KLineIntervals::MIN15},
+            {to_string_view<KLineIntervals>(KLineIntervals::MIN30), KLineIntervals::MIN30},
+            {to_string_view<KLineIntervals>(KLineIntervals::H1), KLineIntervals::H1},
+            {to_string_view<KLineIntervals>(KLineIntervals::H2), KLineIntervals::H2},
+            {to_string_view<KLineIntervals>(KLineIntervals::H4), KLineIntervals::H4},
+            {to_string_view<KLineIntervals>(KLineIntervals::H6), KLineIntervals::H6},
+            {to_string_view<KLineIntervals>(KLineIntervals::H8), KLineIntervals::H8},
+            {to_string_view<KLineIntervals>(KLineIntervals::H12), KLineIntervals::H12},
+            {to_string_view<KLineIntervals>(KLineIntervals::D1), KLineIntervals::D1},
+            {to_string_view<KLineIntervals>(KLineIntervals::D3), KLineIntervals::D3},
+            {to_string_view<KLineIntervals>(KLineIntervals::W1), KLineIntervals::W1},
+            {to_string_view<KLineIntervals>(KLineIntervals::M1), KLineIntervals::M1},
+        };
+
+        static std::unordered_map<std::string_view, RateLimitInterval> rate_limit_interval_mapping = {
+            {to_string_view<RateLimitInterval>(RateLimitInterval::SECOND), RateLimitInterval::SECOND},
+            {to_string_view<RateLimitInterval>(RateLimitInterval::MINUTE), RateLimitInterval::MINUTE},
+            {to_string_view<RateLimitInterval>(RateLimitInterval::DAY), RateLimitInterval::DAY},
+        };
+
         static std::unordered_map<std::string_view, OrderStatus> order_status_mapping = {
             {to_string_view<OrderStatus>(OrderStatus::NEW), OrderStatus::NEW},
             {to_string_view<OrderStatus>(OrderStatus::CANCELED), OrderStatus::CANCELED},
@@ -386,6 +450,33 @@ namespace binance
             {to_string_view<OrderStatus>(OrderStatus::REJECTED), OrderStatus::REJECTED},
         };
 
+        static std::unordered_map<std::string_view, OrderType> order_type_mapping = {
+            {to_string_view<OrderType>(OrderType::LIMIT), OrderType::LIMIT},
+            {to_string_view<OrderType>(OrderType::MARKET), OrderType::MARKET},
+            {to_string_view<OrderType>(OrderType::STOP_LOSS), OrderType::STOP_LOSS},
+            {to_string_view<OrderType>(OrderType::STOP_LOSS_LIMIT), OrderType::STOP_LOSS_LIMIT},
+            {to_string_view<OrderType>(OrderType::TAKE_PROFIT), OrderType::TAKE_PROFIT},
+            {to_string_view<OrderType>(OrderType::TAKE_PROFIT_LIMIT), OrderType::TAKE_PROFIT_LIMIT},
+            {to_string_view<OrderType>(OrderType::LIMIT_MAKER), OrderType::LIMIT_MAKER},
+        };
+
+        static std::unordered_map<std::string_view, OrderResponseType> order_response_type_mapping = {
+            {to_string_view<OrderResponseType>(OrderResponseType::ACK), OrderResponseType::ACK},
+            {to_string_view<OrderResponseType>(OrderResponseType::RESULT), OrderResponseType::RESULT},
+            {to_string_view<OrderResponseType>(OrderResponseType::FULL), OrderResponseType::FULL},
+        };
+
+        static std::unordered_map<std::string_view, OrderSide> order_side_mapping = {
+            {to_string_view<OrderSide>(OrderSide::BUY), OrderSide::BUY},
+            {to_string_view<OrderSide>(OrderSide::SELL), OrderSide::SELL},
+        };
+
+        static std::unordered_map<std::string_view, TimeInForce> time_in_force_mapping = {
+            {to_string_view<TimeInForce>(TimeInForce::GTC), TimeInForce::GTC},
+            {to_string_view<TimeInForce>(TimeInForce::IOC), TimeInForce::IOC},
+            {to_string_view<TimeInForce>(TimeInForce::FOK), TimeInForce::FOK},
+        };
+
         template <typename T>
         constexpr std::optional<T> from_string(const std::string_view s)
         {
@@ -394,6 +485,138 @@ namespace binance
                 if (order_status_mapping.contains(s))
                 {
                     return order_status_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, RateLimitInterval>)
+            {
+                if (rate_limit_interval_mapping.contains(s))
+                {
+                    return rate_limit_interval_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, KLineIntervals>)
+            {
+                if (klines_intervals_mapping.contains(s))
+                {
+                    return klines_intervals_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, RateLimitType>)
+            {
+                if (rate_limit_type_mapping.contains(s))
+                {
+                    return rate_limit_type_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, SymbolStatus>)
+            {
+                if (symbol_status_mapping.contains(s))
+                {
+                    return symbol_status_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, SymbolPermissions>)
+            {
+                if (symbol_permissions_mapping.contains(s))
+                {
+                    return symbol_permissions_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, OCOStatus>)
+            {
+                if (oco_status_mapping.contains(s))
+                {
+                    return oco_status_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, OCOOrderStatus>)
+            {
+                if (oco_order_status_mapping.contains(s))
+                {
+                    return oco_order_status_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, ContingencyType>)
+            {
+                if (contingency_type_mapping.contains(s))
+                {
+                    return contingency_type_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, OrderType>)
+            {
+                if (order_type_mapping.contains(s))
+                {
+                    return order_type_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, OrderResponseType>)
+            {
+                if (order_response_type_mapping.contains(s))
+                {
+                    return order_response_type_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, OrderSide>)
+            {
+                if (order_side_mapping.contains(s))
+                {
+                    return order_side_mapping[s];
+                }
+                else
+                {
+                    return std::nullopt;
+                }
+            }
+            else if constexpr (std::is_same_v<T, TimeInForce>)
+            {
+                if (time_in_force_mapping.contains(s))
+                {
+                    return time_in_force_mapping[s];
                 }
                 else
                 {
