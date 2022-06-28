@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.18)
 
-project(crypto_bot VERSION 0.1.0)
+project(tradex VERSION 0.1.0)
 
 set(CMAKE_CXX_STANDARD 20)
 
